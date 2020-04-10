@@ -6,26 +6,27 @@ var setTitle = function(msg)
 };
 
 //mean HW
-var getmeanhw = function(homework)
+var getmeanhw = function(penguin)
     {
-     var hwgrades = homework.map(function(hw)
+     var hwgrades = penguin.homework.map(function(hw)
                                  {
                                     return hw.grade
                                 });
     return d3.mean(hwgrades)
     };
 //quiz mean
-var getmeanquiz= function(quizes){
-    var quizgrades= quizes.map(function(quiz){
+var getmeanquiz= function(penguin)
+{
+    var quizgrades= penguin.quizes.map(function(quiz){
         return quiz.grade
     })
     return d3.mean(quizgrades)
 }; 
 
 //get mean test grade
-var getmeantest = function(test)
+var getmeantest = function(penguin)
     {
-        var testgrades = test.map(function(tests)
+        var testgrades = penguin.test.map(function(tests)
                                     {
                                     return tests.grade
                                     })
@@ -34,7 +35,11 @@ var getmeantest = function(test)
 //get grade on Final
 var getFinal = function(penguin)
 {
-    penguin.final[0].grade;
+    var finalgrade = penguin.final.map(function(fin)
+                                      {
+                                        return fin.grade
+    })
+    return finalgrade;
 }
 
 //sort by property
@@ -51,23 +56,26 @@ var sortProperty = function(property)
     }
 };
 
-var makePlot = function(penguin)
+var makeFinalvHWPlot = function(penguin)
 {
+    //set Title within
+    setTitle("Grade on Final vs Mean Homework Grade")
    var width = "600";
     var height = "300";
 
     var svg =  d3.select("svg")
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", height)
+                .attr("id","graph")
     
     //scales
     var xScale = d3.scaleLinear()
-                    .domain([d3.min(penguin,getmeanhw),
-                            d3.max(penguin,getmeanhw)])
-                    .range([0, width]);
-    var yScale = d3.scaleLinear()
                     .domain([d3.min(penguin,getFinal),
                             d3.max(penguin,getFinal)])
+                    .range([0, width]);
+    var yScale = d3.scaleLinear()
+                    .domain([d3.min(penguin,getmeanhw),
+                            d3.max(penguin,getmeanhw)])
                     .range([height, 0]);
     
     //dots
@@ -77,14 +85,14 @@ var makePlot = function(penguin)
         .append("circle")
         .attr("cx", function(penguin)
              {
-                return xScale(getmeanhw(penguin));
+                return xScale(getFinal(penguin));
             })
         .attr("cy", function(penguin)
              {
-                return yScale(getFinal(penguin));
+                return yScale(getmeanhw(penguin));
             })
         .attr("r", 3)
-        .attr("fill", "black")
+        .attr("fill", "black");
 };
 
 
@@ -95,11 +103,8 @@ var makePlot = function(penguin)
 var success = function(penguins)
 {
     console.log("Data Collected", penguins);
-    setTitle("Grade on Final vs Average Homework Grade");
-    console.log([penguins[0].final[0].grade]);
-    console.log(penguins[0].final);
     penguins.sort(sortProperty("picture"));
-    makePlot(penguins);
+    makeFinalvHWPlot(penguins);
 };
 
 var failure = function(error)
