@@ -1,3 +1,4 @@
+//set Title differently for each different plot
 var setTitle = function(msg)
 {
     d3.select("h1")
@@ -10,8 +11,8 @@ var getmeanhw = function(homework)
      var hwgrades = homework.map(function(hw)
                                  {
                                     return hw.grade
-                                })
-        return d3.mean(hwgrades)
+                                });
+    return d3.mean(hwgrades)
     };
 //quiz mean
 var getmeanquiz= function(quizes){
@@ -20,10 +21,6 @@ var getmeanquiz= function(quizes){
     })
     return d3.mean(quizgrades)
 }; 
-var getFinal = function(penguin)
-{
-    penguin.final[0].grade;
-}
 
 //get mean test grade
 var getmeantest = function(test)
@@ -34,6 +31,26 @@ var getmeantest = function(test)
                                     })
         return d3.mean(testgrades)
     };
+//get grade on Final
+var getFinal = function(penguin)
+{
+    penguin.final[0].grade;
+}
+
+//sort by property
+var sortProperty = function(property)
+{
+    return function(a,b)
+    {
+        if(a[property] == b[property])
+            {return 0}
+        else if(a[property] < b[property])
+            {return 1}
+        else 
+            {return -1}
+    }
+};
+
 var makePlot = function(penguin)
 {
    var width = "600";
@@ -54,7 +71,7 @@ var makePlot = function(penguin)
                     .range([height, 0]);
     
     //dots
-    svg.selectAll("svg")
+    svg.selectAll("circle")
         .data(penguin)
         .enter()
         .append("circle")
@@ -67,17 +84,21 @@ var makePlot = function(penguin)
                 return yScale(getFinal(penguin));
             })
         .attr("r", 3)
-        .attr("fill", black)
+        .attr("fill", "black")
 };
 
 
 
 
 
-
+//promise
 var success = function(penguins)
 {
     console.log("Data Collected", penguins);
+    setTitle("Grade on Final vs Average Homework Grade");
+    console.log([penguins[0].final[0].grade]);
+    console.log(penguins[0].final);
+    penguins.sort(sortProperty("picture"));
     makePlot(penguins);
 };
 
