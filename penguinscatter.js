@@ -131,7 +131,14 @@ var makeHWvQuizPlot= function(penguin)
                 })
                 
         .attr("r", 3)   
-        .attr("fill", "red");
+        .attr("fill", "red")
+    //attempt at adding tooltip
+        .on("mouseover", drawToolTip)
+        .on("mouseout", function()
+           {
+            d3.select("#tooltip")
+                .classed("hidden",true);
+            });
 };
 
 var makeFinalvTestPlot = function(penguin)
@@ -222,17 +229,51 @@ d3.select("#FinalvHw")
 d3.select("#HwvQuiz")
         .on("click", function(){
         clearpage();
-        makeHWvQuizPlot(penguins)
-})};
-
-//don't need to touch svg or "cx"
+        makeHWvQuizPlot(penguins)});
     
+d3.select("#TestvFinal")
+        .on("click", function()
+           {
+            clearpage()
+            makeFinalvTestPlot(penguins)});
+    
+d3.select("#TestvQuiz")
+        .on("click", function()
+           {
+            clearpage()
+            makeQuizvTestPlot(penguins)});
+};
+
+//tooltip
+var drawToolTip= function(penguin)
+{
+    d3.select("#tooltip")
+        .remove();
+    
+    var xPosition = d3.event.pageX;
+    var yPosition = d3.event.pageY;
+    
+    var base = d3.select("#tooltip")
+                .classed("hidden", false)
+                .style("top",yPosition+"px")
+                .style("left",xPosition+"px")
+                .append("div")
+    
+    base.append("div")
+        .classed("tt-pic", true)
+        .append("img")
+        .attr("src", function(penguins)
+             {
+                return penguins.picture
+            });
+};
+
 //promise
 var success = function(penguins)
 {
     console.log("Data Collected", penguins);
     penguins.sort(sortProperty("picture"));
-    makeQuizvTestPlot(penguins);
+    makeFinalvHWPlot(penguins);
     buttonchange(penguins);
 };
 
