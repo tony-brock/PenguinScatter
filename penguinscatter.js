@@ -60,9 +60,6 @@ var sortProperty = function(property)
 //tooltip
 var drawToolTip= function(penguin)
 {
-    d3.select("#tooltip")
-        .remove();
-    
     var xPosition = d3.event.pageX;
     var yPosition = d3.event.pageY;
     
