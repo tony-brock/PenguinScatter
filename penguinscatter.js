@@ -56,6 +56,32 @@ var sortProperty = function(property)
     }
 };
 
+
+//tooltip
+var drawToolTip= function(penguin)
+{
+    d3.select("#tooltip")
+        .remove();
+    
+    var xPosition = d3.event.pageX;
+    var yPosition = d3.event.pageY;
+    
+    var base = d3.select("#tooltip")
+                .classed("hidden", false)
+                .style("top",yPosition+"px")
+                .style("left",xPosition+"px")
+                .append("div")
+    
+    base.append("img")
+        .classed("tt-pic", true)
+        .attr("src", function(penguins)
+             {
+                return "imgs/" + penguins.picture
+            });
+};
+
+
+
 var makeFinalvHWPlot = function(penguin)
 {
     //set Title within
@@ -92,8 +118,42 @@ var makeFinalvHWPlot = function(penguin)
                 return yScale(getmeanhw(penguin));
             })
         .attr("r", 3)
-        .attr("fill", "black");
-};
+        .attr("fill", "black")
+ //       .on("mouseover", function(penguins)
+//           {
+//            var xPosition = parseFloat(d3.select(this).attr("x")) + xScale.bandwidth() / 2;
+//            var yPosition = parseFloat(d3.select(this).attr("y")) + 14;
+//        svg.append("text")
+//            .attr("src", "imgs/"+ penguins.picture)
+//            .attr("x", xPosition)
+//            .attr("y", yPosition)
+//    })
+//        .on("mouseout", function()
+//           {
+//            d3.select("#tooltip").remove()
+//    });
+ //       .on("mouseout", function()
+//           {    
+//            d3.select("#tooltip")
+//                .classed("hidden", true);
+//            });
+//    svg.selectAll("rect")
+//        .data(penguin)
+//        .enter()
+//        .append("rect")
+//        .append("img")
+//        .append("title")
+//        .attr("src", function(penguins)
+//                    {
+//                        return "imgs/" + penguins.picture
+//                    });
+        .on("mouseover", drawToolTip)
+        .on("mouseout", function()
+           {
+            d3.select("#tooltip")
+                .classed("hidden", true);
+    });
+ };
 
     
 var makeHWvQuizPlot= function(penguin)
@@ -244,29 +304,6 @@ d3.select("#TestvQuiz")
             makeQuizvTestPlot(penguins)});
 };
 
-//tooltip
-var drawToolTip= function(penguin)
-{
-    d3.select("#tooltip")
-        .remove();
-    
-    var xPosition = d3.event.pageX;
-    var yPosition = d3.event.pageY;
-    
-    var base = d3.select("#tooltip")
-                .classed("hidden", false)
-                .style("top",yPosition+"px")
-                .style("left",xPosition+"px")
-                .append("div")
-    
-    base.append("div")
-        .classed("tt-pic", true)
-        .append("img")
-        .attr("src", function(penguins)
-             {
-                return penguins.picture
-            });
-};
 
 //promise
 var success = function(penguins)
