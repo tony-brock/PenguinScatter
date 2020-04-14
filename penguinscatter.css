@@ -3,8 +3,10 @@
     border-width: 15px;
     pointer-events: none;
     width:150px;
-    background-color:aliceblue;
-    padding:5px
+    background-color:darkturquoise;
+    padding:5px;
+        border-style: dotted;
+        border-color: black;
 };
 
 #tooltip.hidden {
@@ -18,4 +20,21 @@ img {
 p {
     border-right: 5px;
     margin-right: 10px;
+    
+}
+button{
+    background-color: darkturquoise;
+        border-style: dotted;
+        width: 250px;
+        height: 75px;
+        font-family: cursive;
+        font-style: italic;
+        font-weight: 600;
+}
+h1{
+    font-family: cursive;
+}
+
+body{
+    background-color: azure
 }
