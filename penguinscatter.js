@@ -61,7 +61,7 @@ var sortProperty = function(property)
 var drawToolTip= function(penguin)
 {
     d3.select("img")
-    
+
     var xPosition = d3.event.pageX;
     var yPosition = d3.event.pageY;
     
