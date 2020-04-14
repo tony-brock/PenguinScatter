@@ -1,0 +1,21 @@
+#tooltip {
+    position: absolute;
+    border-width: 15px;
+    pointer-events: none;
+    width:150px;
+    background-color:aliceblue;
+    padding:5px
+};
+
+#tooltip.hidden {
+    display:none;
+}
+
+img {
+    width: 80px;
+};
+
+p {
+    border-right: 5px;
+    margin-right: 10px;
+}

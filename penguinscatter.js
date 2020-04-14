@@ -60,24 +60,29 @@ var sortProperty = function(property)
 //tooltip
 var drawToolTip= function(penguin)
 {
-    d3.select("#tooltip")
-        .remove();
+    d3.select("img")
     
     var xPosition = d3.event.pageX;
     var yPosition = d3.event.pageY;
     
     var base = d3.select("#tooltip")
-                .classed("hidden", false)
                 .style("top",yPosition+"px")
                 .style("left",xPosition+"px")
-                .append("div")
     
-    base.append("img")
+    base.select("img")
         .classed("tt-pic", true)
-        .attr("src", function(penguins)
+        .attr("src", function()
              {
-                return "imgs/" + penguins.picture
+                return "imgs/" + penguin.picture
             });
+    base.select("#final")
+        .text("   " + getFinal(penguin));
+    base.select("#test")
+        .text("   " + getmeantest(penguin));
+    base.select("#quiz")
+        .text("   " + getmeanquiz(penguin));
+    base.select("#hw")
+        .text("   " + getmeanhw(penguin));
 };
 
 
@@ -119,34 +124,6 @@ var makeFinalvHWPlot = function(penguin)
             })
         .attr("r", 3)
         .attr("fill", "black")
- //       .on("mouseover", function(penguins)
-//           {
-//            var xPosition = parseFloat(d3.select(this).attr("x")) + xScale.bandwidth() / 2;
-//            var yPosition = parseFloat(d3.select(this).attr("y")) + 14;
-//        svg.append("text")
-//            .attr("src", "imgs/"+ penguins.picture)
-//            .attr("x", xPosition)
-//            .attr("y", yPosition)
-//    })
-//        .on("mouseout", function()
-//           {
-//            d3.select("#tooltip").remove()
-//    });
- //       .on("mouseout", function()
-//           {    
-//            d3.select("#tooltip")
-//                .classed("hidden", true);
-//            });
-//    svg.selectAll("rect")
-//        .data(penguin)
-//        .enter()
-//        .append("rect")
-//        .append("img")
-//        .append("title")
-//        .attr("src", function(penguins)
-//                    {
-//                        return "imgs/" + penguins.picture
-//                    });
         .on("mouseover", drawToolTip)
         .on("mouseout", function()
            {
@@ -192,13 +169,12 @@ var makeHWvQuizPlot= function(penguin)
                 
         .attr("r", 3)   
         .attr("fill", "red")
-    //attempt at adding tooltip
         .on("mouseover", drawToolTip)
         .on("mouseout", function()
            {
             d3.select("#tooltip")
-                .classed("hidden",true);
-            });
+                .classed("hidden", true);
+    });
 };
 
 var makeFinalvTestPlot = function(penguin)
@@ -237,7 +213,13 @@ var makeFinalvTestPlot = function(penguin)
                 return yScale(getmeantest(penguin));
             })
         .attr("r", 3)
-        .attr("fill", "green");
+        .attr("fill", "green")
+        .on("mouseover", drawToolTip)
+        .on("mouseout", function()
+           {
+            d3.select("#tooltip")
+                .classed("hidden", true);
+    });
 };
     
 var makeQuizvTestPlot= function(penguin){
@@ -270,8 +252,13 @@ var makeQuizvTestPlot= function(penguin){
         })
         .attr("r", 3)
         .attr("fill", "orange")
-    ;
-}
+        .on("mouseover", drawToolTip)
+        .on("mouseout", function()
+           {
+            d3.select("#tooltip")
+                .classed("hidden", true);
+    });
+};
 
 
 //clear page
