@@ -29,7 +29,9 @@ button{
         height: 75px;
         font-family: cursive;
         font-style: italic;
-        font-weight: 600;
+        font-size: 20px;
+        clear:left;
+        float:left;
 }
 h1{
     font-family: cursive;
@@ -37,4 +39,7 @@ h1{
 
 body{
     background-color: azure
+}
+svg{
+    float:left
 }
